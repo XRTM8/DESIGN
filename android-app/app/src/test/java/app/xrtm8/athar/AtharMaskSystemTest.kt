@@ -24,10 +24,10 @@ class AtharMaskSystemTest {
     @Test
     fun testAtharMaskCatalogIntegrity() {
         val masks = AtharMaskCatalog.ALL_MASKS
-        assertEquals(20, masks.size)
+        assertEquals(27, masks.size)
 
         val uniqueIds = masks.map { it.id }.toSet()
-        assertEquals("Mask IDs must all be unique", 20, uniqueIds.size)
+        assertEquals("Mask IDs must all be unique", 27, uniqueIds.size)
 
         masks.forEach { mask ->
             assertTrue("Mask title must not be empty", mask.title.isNotEmpty())
@@ -120,10 +120,10 @@ class AtharMaskSystemTest {
             assertTrue("Category ${cat.name} label must be non-empty", cat.label.isNotBlank())
         }
 
-        assertEquals(7, AtharMaskCatalog.ALL_MASKS.count { it.category == MaskCategory.SUNLIGHT_SHADOWS })
+        assertEquals(9, AtharMaskCatalog.ALL_MASKS.count { it.category == MaskCategory.SUNLIGHT_SHADOWS })
         assertEquals(5, AtharMaskCatalog.ALL_MASKS.count { it.category == MaskCategory.SMOKE_ATMOSPHERE })
-        assertEquals(4, AtharMaskCatalog.ALL_MASKS.count { it.category == MaskCategory.LIGHT_LEAKS })
-        assertEquals(4, AtharMaskCatalog.ALL_MASKS.count { it.category == MaskCategory.TEXTURES_FRAMES })
+        assertEquals(7, AtharMaskCatalog.ALL_MASKS.count { it.category == MaskCategory.LIGHT_LEAKS })
+        assertEquals(6, AtharMaskCatalog.ALL_MASKS.count { it.category == MaskCategory.TEXTURES_FRAMES })
 
         assertTrue(MaskBlendMode.values().contains(MaskBlendMode.SOFT_LIGHT))
         assertTrue(MaskBlendMode.values().contains(MaskBlendMode.COLOR_DODGE))
@@ -301,9 +301,9 @@ class AtharMaskSystemTest {
     @Test
     fun testProceduralMaskTypesIntegrity() {
         val types = ProceduralMaskType.values()
-        assertEquals(11, types.size)
+        assertEquals(18, types.size)
         val catalogTypes = AtharMaskCatalog.ALL_MASKS.mapNotNull { it.proceduralType }.toSet()
-        assertEquals("All 11 procedural types must be mapped in catalog", 11, catalogTypes.size)
+        assertEquals("All 18 procedural types must be mapped in catalog", 18, catalogTypes.size)
 
         types.forEach { type ->
             assertTrue("Type $type must be represented in catalog", catalogTypes.contains(type))

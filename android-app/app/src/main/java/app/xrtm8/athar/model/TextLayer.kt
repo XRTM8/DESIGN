@@ -40,6 +40,8 @@ data class TextLayer(
     val glassBackdropOpacity: Float = 0.65f,
     val glassBackdropColorLong: Long = 0xFF0D0F14,
     val glassBackdropBorderColorLong: Long = 0x55E5C07B,
+    val glassBackdropBorderWidth: Float = 1.2f,
+    val glassBackdropBorderOpacity: Float = 1.0f,
     val glassBackdropCornerRadius: Float = 22f,
     val glassBackdropPadding: Float = 22f,
     val blendMode: LayerBlendMode = LayerBlendMode.NORMAL,

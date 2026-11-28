@@ -67,7 +67,12 @@ object AtharProceduralMaskRenderer {
             ProceduralMaskType.ARCHED_MASHRABIYA,
             ProceduralMaskType.GOLDEN_HOUR_BEAMS,
             ProceduralMaskType.OPTICAL_SUNBURST,
-            ProceduralMaskType.ANAMORPHIC_STREAK -> {
+            ProceduralMaskType.ANAMORPHIC_STREAK,
+            ProceduralMaskType.BOTANICAL_FERN_SHADOW,
+            ProceduralMaskType.LOUVER_GRID_SHADOW,
+            ProceduralMaskType.PRISM_DIAGONAL_FLARE,
+            ProceduralMaskType.SOFT_BOKEH_LIGHTS,
+            ProceduralMaskType.VINTAGE_FILM_BURN -> {
                 val s = threadScratch.get()!!
                 val buffered = getOrBuildBufferedMask(type, width, height, softness, warmth)
                 s.srcRect.set(0, 0, buffered.width, buffered.height)
@@ -78,6 +83,8 @@ object AtharProceduralMaskRenderer {
             ProceduralMaskType.STUDIO_PASSEPARTOUT -> drawStudioPassepartout(canvas, width, height, paint)
             ProceduralMaskType.VECTOR_HALFTONE -> drawVectorHalftone(canvas, width, height, paint)
             ProceduralMaskType.PRECISION_SCANLINES -> drawPrecisionScanlines(canvas, width, height, paint)
+            ProceduralMaskType.POLAROID_INSTANT_FRAME -> drawPolaroidInstantFrame(canvas, width, height, paint)
+            ProceduralMaskType.PAPER_DECKLE_FRAME -> drawPaperDeckleFrame(canvas, width, height, paint)
         }
     }
 
@@ -130,6 +137,11 @@ object AtharProceduralMaskRenderer {
             ProceduralMaskType.GOLDEN_HOUR_BEAMS -> renderGoldenHourBeams(offCanvas, fw, fh, wNorm)
             ProceduralMaskType.OPTICAL_SUNBURST -> renderOpticalSunburst(offCanvas, fw, fh, wNorm)
             ProceduralMaskType.ANAMORPHIC_STREAK -> renderAnamorphicStreak(offCanvas, fw, fh, wNorm)
+            ProceduralMaskType.BOTANICAL_FERN_SHADOW -> renderBotanicalFernShadow(offCanvas, fw, fh, wNorm)
+            ProceduralMaskType.LOUVER_GRID_SHADOW -> renderLouverGridShadow(offCanvas, fw, fh, wNorm)
+            ProceduralMaskType.PRISM_DIAGONAL_FLARE -> renderPrismDiagonalFlare(offCanvas, fw, fh, wNorm)
+            ProceduralMaskType.SOFT_BOKEH_LIGHTS -> renderSoftBokehLights(offCanvas, fw, fh, wNorm)
+            ProceduralMaskType.VINTAGE_FILM_BURN -> renderVintageFilmBurn(offCanvas, fw, fh, wNorm)
             else -> {}
         }
 
@@ -730,6 +742,246 @@ object AtharProceduralMaskRenderer {
         drawPaint.shader = scanlineShader
         canvas.drawRect(0f, 0f, width, height, drawPaint)
         drawPaint.shader = null
+    }
+
+    // ==========================================
+    // 12. Studio Botanical Fern Shadow Gobo
+    // ==========================================
+    private fun renderBotanicalFernShadow(canvas: Canvas, width: Float, height: Float, warmth: Float) {
+        val warmFactor = warmth.coerceIn(0f, 1f)
+        val lightColor = Color.rgb(
+            255,
+            (252 - warmFactor * 14).toInt().coerceIn(220, 255),
+            (244 - warmFactor * 36).toInt().coerceIn(190, 255)
+        )
+        canvas.drawColor(lightColor)
+
+        val shadowPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = Color.argb(215, 22, 24, 30)
+            style = Paint.Style.FILL
+        }
+
+        // Draw two organic botanical stems with curved leaflets casting directional shadows
+        val stems = listOf(
+            Triple(width * 0.12f, -height * 0.05f, 38f),
+            Triple(width * 0.88f, height * 0.18f, 148f)
+        )
+        for ((sx, sy, angleDeg) in stems) {
+            canvas.save()
+            canvas.translate(sx, sy)
+            canvas.rotate(angleDeg)
+            val stemLen = max(width, height) * 0.92f
+            val stemPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                color = Color.argb(210, 24, 26, 32)
+                style = Paint.Style.STROKE
+                strokeWidth = max(width, height) * 0.012f
+                strokeCap = Paint.Cap.ROUND
+            }
+            canvas.drawLine(0f, 0f, stemLen, 0f, stemPaint)
+
+            val leafCount = 9
+            for (i in 1..leafCount) {
+                val t = i / (leafCount + 1f)
+                val lx = stemLen * t
+                val leafLen = max(width, height) * (0.20f * sin(t * PI).toFloat().coerceAtLeast(0.35f))
+                val leafW = leafLen * 0.34f
+                for (side in listOf(-1f, 1f)) {
+                    val path = Path().apply {
+                        moveTo(lx, 0f)
+                        quadTo(lx + leafLen * 0.45f, side * leafW * 1.15f, lx + leafLen, side * leafW * 0.55f)
+                        quadTo(lx + leafLen * 0.50f, side * leafW * 0.10f, lx, 0f)
+                        close()
+                    }
+                    canvas.drawPath(path, shadowPaint)
+                }
+            }
+            canvas.restore()
+        }
+    }
+
+    // ==========================================
+    // 13. Architectural Skylight Louver Grid Gobo
+    // ==========================================
+    private fun renderLouverGridShadow(canvas: Canvas, width: Float, height: Float, warmth: Float) {
+        val warmFactor = warmth.coerceIn(0f, 1f)
+        canvas.drawColor(
+            Color.rgb(
+                255,
+                (251 - warmFactor * 12).toInt().coerceIn(225, 255),
+                (242 - warmFactor * 34).toInt().coerceIn(190, 255)
+            )
+        )
+        val barPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = Color.argb(220, 24, 27, 34)
+            style = Paint.Style.FILL
+        }
+        canvas.save()
+        canvas.rotate(-18f, width * 0.5f, height * 0.5f)
+        val step = min(width, height) * 0.16f
+        val barThick = step * 0.24f
+        val diag = hypot(width, height)
+        var pos = -diag
+        while (pos < diag * 1.5f) {
+            canvas.drawRect(pos, -diag, pos + barThick, diag * 1.5f, barPaint)
+            canvas.drawRect(-diag, pos, diag * 1.5f, pos + barThick, barPaint)
+            pos += step
+        }
+        canvas.restore()
+    }
+
+    // ==========================================
+    // 14. Optical Prism Diagonal Rainbow Flare
+    // ==========================================
+    private fun renderPrismDiagonalFlare(canvas: Canvas, width: Float, height: Float, warmth: Float) {
+        canvas.drawColor(Color.BLACK)
+        val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.FILL }
+        val warm = warmth.coerceIn(0f, 1f)
+        val colors = intArrayOf(
+            Color.TRANSPARENT,
+            Color.argb(120, 64, 180, 255),
+            Color.argb(165, 160, 255, 210),
+            Color.argb(210, 255, (215 - warm * 25).toInt(), 110),
+            Color.argb(180, 255, 110, 145),
+            Color.TRANSPARENT
+        )
+        val positions = floatArrayOf(0f, 0.28f, 0.44f, 0.58f, 0.74f, 1f)
+        paint.shader = LinearGradient(0f, height * 0.15f, width, height * 0.85f, colors, positions, Shader.TileMode.CLAMP)
+        canvas.drawRect(0f, 0f, width, height, paint)
+        paint.shader = null
+    }
+
+    // ==========================================
+    // 15. Cinematic Out-of-Focus Soft Bokeh Lights
+    // ==========================================
+    private fun renderSoftBokehLights(canvas: Canvas, width: Float, height: Float, warmth: Float) {
+        canvas.drawColor(Color.BLACK)
+        val warm = warmth.coerceIn(0f, 1f)
+        val baseR = min(width, height)
+        val orbs = listOf(
+            floatArrayOf(0.18f, 0.22f, 0.14f, 0.85f),
+            floatArrayOf(0.76f, 0.16f, 0.18f, 0.75f),
+            floatArrayOf(0.45f, 0.38f, 0.11f, 0.65f),
+            floatArrayOf(0.84f, 0.64f, 0.20f, 0.80f),
+            floatArrayOf(0.24f, 0.78f, 0.16f, 0.70f),
+            floatArrayOf(0.60f, 0.84f, 0.13f, 0.60f),
+            floatArrayOf(0.10f, 0.52f, 0.10f, 0.55f)
+        )
+        val p = Paint(Paint.ANTI_ALIAS_FLAG)
+        for (orb in orbs) {
+            val cx = width * orb[0]
+            val cy = height * orb[1]
+            val r = baseR * orb[2]
+            val a = (orb[3] * 225).toInt().coerceIn(40, 255)
+            val core = Color.argb(a, 255, (238 - warm * 32).toInt(), (200 - warm * 75).toInt())
+            val edge = Color.argb((a * 0.55f).toInt(), 255, (210 - warm * 35).toInt(), (155 - warm * 65).toInt())
+            p.shader = RadialGradient(cx, cy, r, intArrayOf(core, edge, Color.TRANSPARENT), floatArrayOf(0f, 0.78f, 1f), Shader.TileMode.CLAMP)
+            canvas.drawCircle(cx, cy, r, p)
+        }
+        p.shader = null
+    }
+
+    // ==========================================
+    // 16. Vintage 35mm Analog Film Light Burn
+    // ==========================================
+    private fun renderVintageFilmBurn(canvas: Canvas, width: Float, height: Float, warmth: Float) {
+        canvas.drawColor(Color.BLACK)
+        val warm = warmth.coerceIn(0f, 1f)
+        val p = Paint(Paint.ANTI_ALIAS_FLAG)
+        val r1 = max(width, height) * 0.75f
+        p.shader = RadialGradient(
+            width * 0.92f, height * 0.12f, r1,
+            intArrayOf(
+                Color.argb(245, 255, (185 - warm * 35).toInt(), 75),
+                Color.argb(175, 240, 82, 36),
+                Color.TRANSPARENT
+            ),
+            floatArrayOf(0f, 0.48f, 1f),
+            Shader.TileMode.CLAMP
+        )
+        canvas.drawRect(0f, 0f, width, height, p)
+
+        p.shader = RadialGradient(
+            width * 0.08f, height * 0.88f, r1 * 0.65f,
+            intArrayOf(
+                Color.argb(190, 255, 130, 52),
+                Color.argb(110, 210, 48, 30),
+                Color.TRANSPARENT
+            ),
+            floatArrayOf(0f, 0.55f, 1f),
+            Shader.TileMode.CLAMP
+        )
+        canvas.drawRect(0f, 0f, width, height, p)
+        p.shader = null
+    }
+
+    // ==========================================
+    // 17. Polaroid Instant Film Frame
+    // ==========================================
+    private fun drawPolaroidInstantFrame(canvas: Canvas, width: Float, height: Float, paint: Paint) {
+        val side = min(width, height) * 0.065f
+        val bottom = height * 0.18f
+        val drawPaint = threadScratch.get()!!.drawPaint
+        drawPaint.set(paint)
+        drawPaint.style = Paint.Style.FILL
+        drawPaint.color = Color.argb(paint.alpha, 248, 246, 240)
+
+        val framePath = Path().apply {
+            fillType = Path.FillType.EVEN_ODD
+            addRect(0f, 0f, width, height, Path.Direction.CW)
+            addRoundRect(
+                RectF(side, side, width - side, height - bottom),
+                side * 0.18f, side * 0.18f, Path.Direction.CCW
+            )
+        }
+        canvas.drawPath(framePath, drawPaint)
+    }
+
+    // ==========================================
+    // 18. Artisan Deckle-Edge Paper Frame
+    // ==========================================
+    private fun drawPaperDeckleFrame(canvas: Canvas, width: Float, height: Float, paint: Paint) {
+        val margin = min(width, height) * 0.06f
+        val drawPaint = threadScratch.get()!!.drawPaint
+        drawPaint.set(paint)
+        drawPaint.style = Paint.Style.FILL
+        drawPaint.color = Color.argb(paint.alpha, 244, 240, 232)
+
+        val inner = Path()
+        val steps = 40
+        val amp = margin * 0.18f
+        inner.moveTo(margin, margin)
+        for (i in 0..steps) {
+            val t = i / steps.toFloat()
+            val x = margin + (width - 2f * margin) * t
+            val jitter = sin(i * 2.7f) * amp * 0.6f + cos(i * 4.3f) * amp * 0.4f
+            inner.lineTo(x, margin + jitter)
+        }
+        for (i in 0..steps) {
+            val t = i / steps.toFloat()
+            val y = margin + (height - 2f * margin) * t
+            val jitter = sin(i * 3.1f) * amp * 0.6f + cos(i * 5.1f) * amp * 0.4f
+            inner.lineTo(width - margin + jitter, y)
+        }
+        for (i in steps downTo 0) {
+            val t = i / steps.toFloat()
+            val x = margin + (width - 2f * margin) * t
+            val jitter = sin(i * 2.3f) * amp * 0.6f + cos(i * 4.9f) * amp * 0.4f
+            inner.lineTo(x, height - margin + jitter)
+        }
+        for (i in steps downTo 0) {
+            val t = i / steps.toFloat()
+            val y = margin + (height - 2f * margin) * t
+            val jitter = sin(i * 3.7f) * amp * 0.6f + cos(i * 4.1f) * amp * 0.4f
+            inner.lineTo(margin + jitter, y)
+        }
+        inner.close()
+
+        val outer = Path().apply {
+            fillType = Path.FillType.EVEN_ODD
+            addRect(0f, 0f, width, height, Path.Direction.CW)
+            addPath(inner)
+        }
+        canvas.drawPath(outer, drawPaint)
     }
 
     // ==========================================

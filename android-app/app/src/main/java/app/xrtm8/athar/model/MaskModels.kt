@@ -59,7 +59,14 @@ enum class ProceduralMaskType {
     FILM_BORDER_35MM,    // إطار فيلم 35mm أصيل (35mm Film Frame & Sprockets)
     STUDIO_PASSEPARTOUT, // باسبارتو استوديو (Studio Passepartout Mat)
     VECTOR_HALFTONE,     // تنقيط مطبعي نقي (Vector Halftone Screen)
-    PRECISION_SCANLINES  // خطوط مسح أنالوج (Analog CRT Scanlines)
+    PRECISION_SCANLINES, // خطوط مسح أنالوج (Analog CRT Scanlines)
+    BOTANICAL_FERN_SHADOW,  // ظل أوراق نباتية (Studio Botanical Leaf Gobo)
+    LOUVER_GRID_SHADOW,     // ظل شبك معماري (Skylight Louver Grid Gobo)
+    PRISM_DIAGONAL_FLARE,   // موشور ضوئي مائل (Optical Prism Rainbow Streak)
+    SOFT_BOKEH_LIGHTS,      // بوكيه إضاءة ناعم (Cinematic Out-of-Focus Bokeh)
+    VINTAGE_FILM_BURN,      // احتراق فيلم كلاسيكي (35mm Analog Film Light Burn)
+    POLAROID_INSTANT_FRAME, // إطار بولارويد فوري (Instant Film Matte Frame)
+    PAPER_DECKLE_FRAME      // إطار ورق مقطوع (Artisan Deckle-Edge Paper Frame)
 }
 
 enum class BlackGradientPlacement(val label: String) {
@@ -337,6 +344,76 @@ object AtharMaskCatalog {
             defaultSoftness = 0.0f,
             defaultWarmth = 0.0f,
             proceduralType = ProceduralMaskType.PRECISION_SCANLINES
+        ),
+        AtharMaskDefinition(
+            id = "botanical_fern_gobo",
+            title = "ظل أوراق نباتية",
+            category = MaskCategory.SUNLIGHT_SHADOWS,
+            defaultBlendMode = MaskBlendMode.MULTIPLY,
+            defaultOpacity = 0.72f,
+            defaultSoftness = 0.28f,
+            defaultWarmth = 0.42f,
+            proceduralType = ProceduralMaskType.BOTANICAL_FERN_SHADOW
+        ),
+        AtharMaskDefinition(
+            id = "louver_grid_gobo",
+            title = "ظل شبك معماري",
+            category = MaskCategory.SUNLIGHT_SHADOWS,
+            defaultBlendMode = MaskBlendMode.MULTIPLY,
+            defaultOpacity = 0.74f,
+            defaultSoftness = 0.24f,
+            defaultWarmth = 0.35f,
+            proceduralType = ProceduralMaskType.LOUVER_GRID_SHADOW
+        ),
+        AtharMaskDefinition(
+            id = "prism_diagonal_flare",
+            title = "موشور ضوئي مائل",
+            category = MaskCategory.LIGHT_LEAKS,
+            defaultBlendMode = MaskBlendMode.SCREEN,
+            defaultOpacity = 0.78f,
+            defaultSoftness = 0.32f,
+            defaultWarmth = 0.40f,
+            proceduralType = ProceduralMaskType.PRISM_DIAGONAL_FLARE
+        ),
+        AtharMaskDefinition(
+            id = "soft_bokeh_lights",
+            title = "بوكيه إضاءة ناعم",
+            category = MaskCategory.LIGHT_LEAKS,
+            defaultBlendMode = MaskBlendMode.SCREEN,
+            defaultOpacity = 0.72f,
+            defaultSoftness = 0.35f,
+            defaultWarmth = 0.55f,
+            proceduralType = ProceduralMaskType.SOFT_BOKEH_LIGHTS
+        ),
+        AtharMaskDefinition(
+            id = "vintage_film_burn",
+            title = "احتراق فيلم كلاسيكي",
+            category = MaskCategory.LIGHT_LEAKS,
+            defaultBlendMode = MaskBlendMode.SCREEN,
+            defaultOpacity = 0.80f,
+            defaultSoftness = 0.30f,
+            defaultWarmth = 0.70f,
+            proceduralType = ProceduralMaskType.VINTAGE_FILM_BURN
+        ),
+        AtharMaskDefinition(
+            id = "polaroid_instant_frame",
+            title = "إطار بولارويد فوري",
+            category = MaskCategory.TEXTURES_FRAMES,
+            defaultBlendMode = MaskBlendMode.NORMAL,
+            defaultOpacity = 0.92f,
+            defaultSoftness = 0.0f,
+            defaultWarmth = 0.0f,
+            proceduralType = ProceduralMaskType.POLAROID_INSTANT_FRAME
+        ),
+        AtharMaskDefinition(
+            id = "paper_deckle_frame",
+            title = "إطار ورق مقطوع",
+            category = MaskCategory.TEXTURES_FRAMES,
+            defaultBlendMode = MaskBlendMode.NORMAL,
+            defaultOpacity = 0.90f,
+            defaultSoftness = 0.0f,
+            defaultWarmth = 0.0f,
+            proceduralType = ProceduralMaskType.PAPER_DECKLE_FRAME
         )
     )
 

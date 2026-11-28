@@ -168,9 +168,11 @@ object AtharOpticalGlowEngine {
                 }
                 weight *= (a / 255f)
 
-                val nr = (r * rMult * weight).toInt().coerceIn(0, 255)
-                val ng = (g * gMult * weight).toInt().coerceIn(0, 255)
-                val nb = (b * bMult * weight).toInt().coerceIn(0, 255)
+                // Bitmap.setPixels premultiplies RGB by alpha (na / 255f), so keep RGB unpremultiplied here
+                // to avoid double-attenuating highlights (weight^2) during SCREEN compositing.
+                val nr = (r * rMult).toInt().coerceIn(0, 255)
+                val ng = (g * gMult).toInt().coerceIn(0, 255)
+                val nb = (b * bMult).toInt().coerceIn(0, 255)
                 val na = (255f * weight).toInt().coerceIn(0, 255)
                 highlightPixels[i] = (na shl 24) or (nr shl 16) or (ng shl 8) or nb
             }

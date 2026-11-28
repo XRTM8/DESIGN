@@ -63,6 +63,9 @@ fun PhotoAdjustmentsPanel(
     onContrastChange: (Float) -> Unit,
     onSaturationChange: (Float) -> Unit,
     onVignetteChange: (Float) -> Unit,
+    onHighlightsChange: (Float) -> Unit = {},
+    onShadowsChange: (Float) -> Unit = {},
+    onTemperatureChange: (Float) -> Unit = {},
     onResetAdjustments: () -> Unit,
     modifier: Modifier = Modifier,
     onSliderChangeFinished: (() -> Unit)? = null
@@ -336,6 +339,48 @@ fun PhotoAdjustmentsPanel(
             step = 0.05f,
             valueDisplay = "${(state.backgroundVignette * 100).toInt()}%",
             icon = Icons.Default.Vignette
+        )
+
+        Spacer(modifier = Modifier.height(2.dp))
+
+        // PicsArt-style: Highlights (أبرز الأحداث)
+        StudioSlider(
+            title = "أبرز الأحداث",
+            value = state.backgroundHighlights,
+            onValueChange = onHighlightsChange,
+            onValueChangeFinished = onSliderChangeFinished,
+            valueRange = -1f..1f,
+            step = 0.05f,
+            valueDisplay = if (state.backgroundHighlights > 0f) "+${(state.backgroundHighlights * 100).toInt()}" else "${(state.backgroundHighlights * 100).toInt()}",
+            icon = Icons.Default.Brightness6
+        )
+
+        Spacer(modifier = Modifier.height(2.dp))
+
+        // PicsArt-style: Shadows (الظلال)
+        StudioSlider(
+            title = "الظلال",
+            value = state.backgroundShadows,
+            onValueChange = onShadowsChange,
+            onValueChangeFinished = onSliderChangeFinished,
+            valueRange = -1f..1f,
+            step = 0.05f,
+            valueDisplay = if (state.backgroundShadows > 0f) "+${(state.backgroundShadows * 100).toInt()}" else "${(state.backgroundShadows * 100).toInt()}",
+            icon = Icons.Default.DarkMode
+        )
+
+        Spacer(modifier = Modifier.height(2.dp))
+
+        // PicsArt-style: Temperature (درجة الحرارة)
+        StudioSlider(
+            title = "درجة الحرارة",
+            value = state.backgroundTemperature,
+            onValueChange = onTemperatureChange,
+            onValueChangeFinished = onSliderChangeFinished,
+            valueRange = -1f..1f,
+            step = 0.05f,
+            valueDisplay = if (state.backgroundTemperature > 0f) "+${(state.backgroundTemperature * 100).toInt()}" else "${(state.backgroundTemperature * 100).toInt()}",
+            icon = Icons.Default.ColorLens
         )
 
         Spacer(modifier = Modifier.height(6.dp))

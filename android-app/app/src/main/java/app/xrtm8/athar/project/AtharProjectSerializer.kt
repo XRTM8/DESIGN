@@ -25,6 +25,9 @@ object AtharProjectSerializer {
             put("background_contrast", state.backgroundContrast.toDouble())
             put("background_saturation", state.backgroundSaturation.toDouble())
             put("background_vignette", state.backgroundVignette.toDouble())
+            put("background_highlights", state.backgroundHighlights.toDouble())
+            put("background_shadows", state.backgroundShadows.toDouble())
+            put("background_temperature", state.backgroundTemperature.toDouble())
             put("background_grayscale", state.backgroundGrayscale)
             put("is_transparent_bg", state.isTransparentBg)
             put("bg_photo_offset_x", state.bgPhotoOffsetX.toDouble())
@@ -52,10 +55,13 @@ object AtharProjectSerializer {
             backgroundContrast = c.optDouble("background_contrast", 1.0).toFloat(),
             backgroundSaturation = c.optDouble("background_saturation", 1.0).toFloat(),
             backgroundVignette = c.optDouble("background_vignette", 0.0).toFloat(),
+            backgroundHighlights = c.optDouble("background_highlights", 0.0).toFloat().coerceIn(-1f, 1f),
+            backgroundShadows = c.optDouble("background_shadows", 0.0).toFloat().coerceIn(-1f, 1f),
+            backgroundTemperature = c.optDouble("background_temperature", 0.0).toFloat().coerceIn(-1f, 1f),
             backgroundGrayscale = c.optBoolean("background_grayscale", false),
             isTransparentBg = c.optBoolean("is_transparent_bg", false),
             filmPreset = enumOrDefault(c.optString("film_preset", FilmPreset.NONE.name), FilmPreset.NONE),
-            filmPresetIntensity = c.optDouble("film_preset_intensity", 1.0).toFloat().coerceIn(0f, 1f),
+            filmPresetIntensity = c.optDouble("film_preset_intensity", 1.0).toFloat().coerceIn(0f, 1.5f),
             gradientScrim = CanvasGradientScrim(
                 isEnabled = c.optBoolean("scrim_enabled", false),
                 direction = enumOrDefault(c.optString("scrim_direction", CanvasGradientDirection.BOTTOM_TO_TOP.name), CanvasGradientDirection.BOTTOM_TO_TOP),

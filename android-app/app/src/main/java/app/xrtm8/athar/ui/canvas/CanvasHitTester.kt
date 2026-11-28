@@ -36,7 +36,11 @@ object CanvasHitTester {
             val halfW: Float
             val halfH: Float
             if (layer.shapeConfig.isShape) {
-                val shapeW = canvasW * layer.shapeConfig.widthRatio
+                val shapeW = if (layer.shapeConfig.type == app.xrtm8.athar.model.ShapeType.DIVIDER_V) {
+                    (layer.shapeConfig.strokeWidth * (canvasW / 380f)).coerceAtLeast(12f)
+                } else {
+                    canvasW * layer.shapeConfig.widthRatio
+                }
                 val shapeH = when (layer.shapeConfig.type) {
                     app.xrtm8.athar.model.ShapeType.CIRCLE -> shapeW
                     app.xrtm8.athar.model.ShapeType.DIVIDER_H -> (layer.shapeConfig.strokeWidth * (canvasW / 380f)).coerceAtLeast(12f)

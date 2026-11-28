@@ -42,7 +42,7 @@ class AtharFontSystemTest {
                 assertTrue("Missing asset for ${font.name}: $relPath", f.exists() && f.length() > 1000L)
                 val parsed = SfntFontParser.parse(f.readBytes())
                 assertNotNull("Failed SFNT parse for $relPath", parsed)
-                assertEquals("Expected TTF format for $relPath", "TTF", parsed!!.format)
+                assertTrue("Expected TTF or OTF format for $relPath (got ${parsed!!.format})", parsed.format == "TTF" || parsed.format == "OTF")
                 assertTrue("Font $relPath must support Arabic", parsed.supportsArabic)
             }
             val baseParsed = SfntFontParser.parse(File(assetsDir, font.assetPath).readBytes())!!

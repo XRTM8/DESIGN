@@ -57,6 +57,13 @@ fun CinematicEffectsPanel(
     onSliderChangeFinished: (() -> Unit)? = null
 ) {
     val haptic = LocalHapticFeedback.current
+    val isAmoledWhite = LocalAmoledWhite.current
+    val cardBg = if (isAmoledWhite) WhiteSurface else StudioSurface
+    val cardElevated = if (isAmoledWhite) WhiteSurfaceElevated else StudioSurfaceElevated
+    val cardBorder = if (isAmoledWhite) WhiteBorder else GlassBorder
+    val titleText = if (isAmoledWhite) DarkText else PureWhite
+    val mutedText = if (isAmoledWhite) DarkTextMuted else MutedWhite
+    val subtleText = if (isAmoledWhite) DarkTextSubtle else SubtleGray
 
     Column(modifier = modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         // Section 1: Optical Glow & Motion Streaks
@@ -64,8 +71,8 @@ fun CinematicEffectsPanel(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(14.dp))
-                .background(StudioSurface)
-                .border(0.5.dp, GlassBorder, RoundedCornerShape(14.dp))
+                .background(cardBg)
+                .border(0.5.dp, cardBorder, RoundedCornerShape(14.dp))
                 .padding(12.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
@@ -76,7 +83,7 @@ fun CinematicEffectsPanel(
             ) {
                 Text(
                     text = "التوهج والسحب الضوئي (Glow & Motion)",
-                    color = PureWhite,
+                    color = titleText,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -106,8 +113,8 @@ fun CinematicEffectsPanel(
                     Box(
                         modifier = Modifier
                             .clip(RoundedCornerShape(9.dp))
-                            .background(if (isSelected) BurgundyAccent else StudioSurfaceElevated)
-                            .border(0.5.dp, if (isSelected) CherryAccent else GlassBorder, RoundedCornerShape(9.dp))
+                            .background(if (isSelected) BurgundyAccent else cardElevated)
+                            .border(0.5.dp, if (isSelected) CherryAccent else cardBorder, RoundedCornerShape(9.dp))
                             .clickable {
                                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                                 onStyleChange(style)
@@ -117,7 +124,7 @@ fun CinematicEffectsPanel(
                     ) {
                         Text(
                             text = style.label,
-                            color = if (isSelected) PureWhite else MutedWhite,
+                            color = if (isSelected) PureWhite else mutedText,
                             fontSize = 10.5.sp,
                             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
                         )
@@ -127,7 +134,7 @@ fun CinematicEffectsPanel(
 
             Text(
                 text = glowState.style.description,
-                color = SubtleGray,
+                color = subtleText,
                 fontSize = 10.sp
             )
 
@@ -175,8 +182,8 @@ fun CinematicEffectsPanel(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(14.dp))
-                .background(StudioSurface)
-                .border(0.5.dp, GlassBorder, RoundedCornerShape(14.dp))
+                .background(cardBg)
+                .border(0.5.dp, cardBorder, RoundedCornerShape(14.dp))
                 .padding(12.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
@@ -187,7 +194,7 @@ fun CinematicEffectsPanel(
             ) {
                 Text(
                     text = "حبيبات الفيلم (Film Grain)",
-                    color = PureWhite,
+                    color = titleText,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold
                 )

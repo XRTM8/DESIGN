@@ -55,6 +55,10 @@ fun StyleEffectsPanel(
     onGlassOpacityChange: (Float) -> Unit,
     onGlassCornerRadiusChange: (Float) -> Unit,
     onGlassPaddingChange: (Float) -> Unit,
+    onGlassColorChange: (Long) -> Unit = {},
+    onGlassBorderColorChange: (Long) -> Unit = {},
+    onGlassBorderWidthChange: (Float) -> Unit = {},
+    onGlassBorderOpacityChange: (Float) -> Unit = {},
     onBlendModeChange: (LayerBlendMode) -> Unit = {},
     extractedPalette: AtharPaletteExtractor.ExtractedPalette? = null,
     onSelectGradientPreset: ((LuxuryGradientPreset) -> Unit)? = null,
@@ -180,6 +184,10 @@ fun StyleEffectsPanel(
                     onOpacityChange = onGlassOpacityChange,
                     onCornerRadiusChange = onGlassCornerRadiusChange,
                     onPaddingChange = onGlassPaddingChange,
+                    onColorChange = onGlassColorChange,
+                    onBorderColorChange = onGlassBorderColorChange,
+                    onBorderWidthChange = onGlassBorderWidthChange,
+                    onBorderOpacityChange = onGlassBorderOpacityChange,
                     onSliderChangeFinished = onSliderChangeFinished
                 )
             }

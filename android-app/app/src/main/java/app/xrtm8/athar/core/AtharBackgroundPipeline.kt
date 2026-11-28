@@ -47,6 +47,9 @@ object AtharBackgroundPipeline {
         backgroundContrast = 1.0f,
         backgroundSaturation = 1.0f,
         backgroundVignette = 0f,
+        backgroundHighlights = 0f,
+        backgroundShadows = 0f,
+        backgroundTemperature = 0f,
         backgroundGrayscale = false,
         filmPreset = FilmPreset.NONE,
         filmPresetIntensity = 1.0f,
@@ -90,6 +93,11 @@ object AtharBackgroundPipeline {
 
     fun hasSinglePhotoRasterEffects(state: CanvasState): Boolean =
         hasFilmLut(state) ||
+            AtharPhotoAdjustmentsEngine.isEnabled(
+                state.backgroundHighlights,
+                state.backgroundShadows,
+                state.backgroundTemperature
+            ) ||
             state.flutedGlassState.isEnabled ||
             state.toneCurveState.isEnabled ||
             state.opticalLensState.isEnabled ||
@@ -248,6 +256,23 @@ object AtharBackgroundPipeline {
             current = curved
         }
 
+        if (AtharPhotoAdjustmentsEngine.isEnabled(
+                state.backgroundHighlights,
+                state.backgroundShadows,
+                state.backgroundTemperature
+            )
+        ) {
+            val adjusted = AtharPhotoAdjustmentsEngine.processBitmap(
+                source = current,
+                highlights = state.backgroundHighlights,
+                shadows = state.backgroundShadows,
+                temperature = state.backgroundTemperature,
+                inPlace = true
+            )
+            if (adjusted !== current && !current.isRecycled) current.recycle()
+            current = adjusted
+        }
+
         val colorFilter = buildCompositeColorFilter(state, includeFilmMatrix = false)
         if (colorFilter != null) {
             val filtered = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
@@ -330,6 +355,25 @@ object AtharBackgroundPipeline {
             if (curved !== current) {
                 if (current !== input && !current.isRecycled) current.recycle()
                 current = curved
+            }
+        }
+
+        if (AtharPhotoAdjustmentsEngine.isEnabled(
+                state.backgroundHighlights,
+                state.backgroundShadows,
+                state.backgroundTemperature
+            )
+        ) {
+            val adjusted = AtharPhotoAdjustmentsEngine.processBitmap(
+                source = current,
+                highlights = state.backgroundHighlights,
+                shadows = state.backgroundShadows,
+                temperature = state.backgroundTemperature,
+                inPlace = (current !== input)
+            )
+            if (adjusted !== current) {
+                if (current !== input && !current.isRecycled) current.recycle()
+                current = adjusted
             }
         }
 

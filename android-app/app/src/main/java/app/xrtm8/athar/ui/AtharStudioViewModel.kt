@@ -302,7 +302,27 @@ class AtharStudioViewModel : ViewModel() {
     fun setHollowText(isHollow: Boolean) = history.pushActiveLayerHistory { it.copy(isHollowText = isHollow) }
 
     fun setGlassBackdropPreset(preset: GlassBackdropPreset) = history.pushActiveLayerHistory {
-        it.copy(enableGlassBackdrop = true, glassBackdropColorLong = preset.bgArgb, glassBackdropBorderColorLong = preset.strokeArgb, glassBackdropOpacity = preset.opacity)
+        it.copy(
+            enableGlassBackdrop = true,
+            glassBackdropColorLong = preset.bgArgb,
+            glassBackdropBorderColorLong = preset.strokeArgb,
+            glassBackdropOpacity = preset.opacity,
+            glassBackdropBorderOpacity = 1.0f
+        )
+    }
+    fun setGlassBackdropColor(colorLong: Long) = history.pushActiveLayerHistory {
+        it.copy(enableGlassBackdrop = true, glassBackdropColorLong = colorLong)
+    }
+    fun setGlassBackdropBorderColor(colorLong: Long) = history.pushActiveLayerHistory {
+        it.copy(enableGlassBackdrop = true, glassBackdropBorderColorLong = colorLong)
+    }
+    fun setGlassBackdropBorderWidth(width: Float) {
+        history.markSliderChange()
+        history.updateActiveLayer { it.copy(glassBackdropBorderWidth = width.coerceIn(0f, 6f)) }
+    }
+    fun setGlassBackdropBorderOpacity(opacity: Float) {
+        history.markSliderChange()
+        history.updateActiveLayer { it.copy(glassBackdropBorderOpacity = opacity.coerceIn(0f, 1f)) }
     }
 
     fun updateTransform(normX: Float, normY: Float, scale: Float, rotation: Float) =
@@ -384,6 +404,9 @@ class AtharStudioViewModel : ViewModel() {
     fun setBackgroundContrast(contrast: Float) { history.markSliderChange(); history.updateState { it.copy(backgroundContrast = contrast.coerceIn(0.5f, 1.8f)) } }
     fun setBackgroundSaturation(saturation: Float) { history.markSliderChange(); history.updateState { it.copy(backgroundSaturation = saturation.coerceIn(0f, 2.0f)) } }
     fun setBackgroundVignette(vignette: Float) { history.markSliderChange(); history.updateState { it.copy(backgroundVignette = vignette.coerceIn(0f, 1.0f)) } }
+    fun setBackgroundHighlights(highlights: Float) { history.markSliderChange(); history.updateState { it.copy(backgroundHighlights = highlights.coerceIn(-1f, 1f)) } }
+    fun setBackgroundShadows(shadows: Float) { history.markSliderChange(); history.updateState { it.copy(backgroundShadows = shadows.coerceIn(-1f, 1f)) } }
+    fun setBackgroundTemperature(temperature: Float) { history.markSliderChange(); history.updateState { it.copy(backgroundTemperature = temperature.coerceIn(-1f, 1f)) } }
     fun setBackgroundGrayscale(enabled: Boolean) = history.pushHistory(history.current().copy(backgroundGrayscale = enabled))
     fun setTransparentBg(enabled: Boolean) = history.pushHistory(history.current().copy(isTransparentBg = enabled))
 
@@ -400,7 +423,7 @@ class AtharStudioViewModel : ViewModel() {
     fun setBgPhotoScale(scale: Float) { history.markSliderChange(); history.updateState { it.copy(bgPhotoScale = scale.coerceIn(1.0f, 4.0f)) } }
 
     fun setFilmPreset(preset: FilmPreset) = history.pushHistory(history.current().copy(filmPreset = preset))
-    fun setFilmPresetIntensity(intensity: Float) { history.markSliderChange(); history.updateState { it.copy(filmPresetIntensity = intensity.coerceIn(0f, 1f)) } }
+    fun setFilmPresetIntensity(intensity: Float) { history.markSliderChange(); history.updateState { it.copy(filmPresetIntensity = intensity.coerceIn(0f, 1.5f)) } }
     fun setOpticalLensState(lensState: OpticalLensState) {
         history.markSliderChange()
         val sanitized = lensState.copy(
@@ -516,7 +539,18 @@ class AtharStudioViewModel : ViewModel() {
     fun removeCollageCellPhoto(cellId: String) = history.pushHistory(StudioEffectsCollageOps.updateCollageCell(history.current(), cellId) { StudioEffectsCollageOps.resetCellFraming(it, clearPhoto = true) })
 
     fun resetPhotoAdjustments() = history.pushHistory(
-        history.current().copy(backgroundBlur = 0f, flutedGlassState = FlutedGlassState(), backgroundBrightness = 0f, backgroundContrast = 1.0f, backgroundSaturation = 1.0f, backgroundVignette = 0f, backgroundDim = 0.25f)
+        history.current().copy(
+            backgroundBlur = 0f,
+            flutedGlassState = FlutedGlassState(),
+            backgroundBrightness = 0f,
+            backgroundContrast = 1.0f,
+            backgroundSaturation = 1.0f,
+            backgroundVignette = 0f,
+            backgroundHighlights = 0f,
+            backgroundShadows = 0f,
+            backgroundTemperature = 0f,
+            backgroundDim = 0.25f
+        )
     )
 
     // ==========================================

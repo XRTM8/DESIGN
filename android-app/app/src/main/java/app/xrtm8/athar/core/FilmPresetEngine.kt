@@ -145,15 +145,15 @@ object FilmPresetEngine {
         val b = argb and 0xFF
 
         val outRgb = evalLutFixed(r, g, b, lut)
-        val blend = (intensity.coerceIn(0f, 1f) * 256f + 0.5f).toInt()
-        if (blend >= 256) return alphaMask or outRgb
+        val blend = (intensity.coerceIn(0f, 1.5f) * 256f + 0.5f).toInt()
+        if (blend == 256) return alphaMask or outRgb
 
         val outR = (outRgb shr 16) and 0xFF
         val outG = (outRgb shr 8) and 0xFF
         val outB = outRgb and 0xFF
-        val finalR = r + (((outR - r) * blend) shr 8)
-        val finalG = g + (((outG - g) * blend) shr 8)
-        val finalB = b + (((outB - b) * blend) shr 8)
+        val finalR = (r + (((outR - r) * blend) shr 8)).coerceIn(0, 255)
+        val finalG = (g + (((outG - g) * blend) shr 8)).coerceIn(0, 255)
+        val finalB = (b + (((outB - b) * blend) shr 8)).coerceIn(0, 255)
         return alphaMask or (finalR shl 16) or (finalG shl 8) or finalB
     }
 
@@ -485,6 +485,42 @@ object FilmPresetEngine {
                     0f, 0f, 0f, 1f, 0f
                 )
             ).apply { postConcat(ColorMatrix().apply { setSaturation(1.06f) }) }
+
+            FilmPreset.NTRL1, FilmPreset.NTRL2, FilmPreset.NTRL3 -> ColorMatrix(
+                floatArrayOf(
+                    1.03f, 0f, 0f, 0f, 4f,
+                    0f, 1.02f, 0f, 0f, 4f,
+                    0f, 0f, 0.99f, 0f, 2f,
+                    0f, 0f, 0f, 1f, 0f
+                )
+            ).apply { postConcat(ColorMatrix().apply { setSaturation(if (preset == FilmPreset.NTRL3) 0.86f else 0.98f) }) }
+
+            FilmPreset.BRNZ1, FilmPreset.BRNZ2, FilmPreset.BRNZ4 -> ColorMatrix(
+                floatArrayOf(
+                    1.10f, 0.03f, 0f, 0f, 8f,
+                    0f, 1.01f, 0f, 0f, 4f,
+                    0f, 0f, 0.88f, 0f, -8f,
+                    0f, 0f, 0f, 1f, 0f
+                )
+            ).apply { postConcat(ColorMatrix().apply { setSaturation(if (preset == FilmPreset.BRNZ4) 0.90f else 1.08f) }) }
+
+            FilmPreset.TL1 -> ColorMatrix(
+                floatArrayOf(
+                    0.98f, 0f, 0f, 0f, -2f,
+                    0f, 1.03f, 0f, 0f, 4f,
+                    0f, 0f, 1.08f, 0f, 8f,
+                    0f, 0f, 0f, 1f, 0f
+                )
+            ).apply { postConcat(ColorMatrix().apply { setSaturation(1.02f) }) }
+
+            FilmPreset.MIL1 -> ColorMatrix(
+                floatArrayOf(
+                    0.96f, 0f, 0f, 0f, 14f,
+                    0f, 0.96f, 0f, 0f, 14f,
+                    0f, 0f, 0.97f, 0f, 16f,
+                    0f, 0f, 0f, 1f, 0f
+                )
+            ).apply { postConcat(ColorMatrix().apply { setSaturation(0.84f) }) }
         }
     }
 

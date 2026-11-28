@@ -80,7 +80,9 @@ object TextGlassBackdropRenderer {
             textAlign = layer.textAlign,
             layout = layout,
             textSizePx = textSizePx,
-            density = density
+            density = density,
+            glassBackdropBorderWidth = layer.glassBackdropBorderWidth,
+            glassBackdropBorderOpacity = layer.glassBackdropBorderOpacity
         )
     }
 
@@ -96,7 +98,9 @@ object TextGlassBackdropRenderer {
         layout: TypographyLayoutResult,
         textSizePx: Float,
         density: Float,
-        glassBackdropPaddingV: Float? = null
+        glassBackdropPaddingV: Float? = null,
+        glassBackdropBorderWidth: Float = 1.2f,
+        glassBackdropBorderOpacity: Float = 1.0f
     ) {
         if (!enableGlassBackdrop || layout.maxLineWidth <= 0f) return
 
@@ -122,8 +126,13 @@ object TextGlassBackdropRenderer {
         s.sheenPaint.shader = s.getSheenShader(bLeft, bTop, bRight, bBottom, alphaInt)
         canvas.drawRoundRect(s.rectF, cornerR, cornerR, s.sheenPaint)
 
-        s.strokePaint.strokeWidth = 1.2f * density
-        s.strokePaint.color = glassBackdropBorderColorLong.toInt()
-        canvas.drawRoundRect(s.rectF, cornerR, cornerR, s.strokePaint)
+        if (glassBackdropBorderWidth > 0.05f && glassBackdropBorderOpacity > 0.01f) {
+            val rawBorder = glassBackdropBorderColorLong.toInt()
+            val rawAlpha = (rawBorder ushr 24) and 0xFF
+            val effAlpha = ((if (rawAlpha == 0) 255 else rawAlpha) * glassBackdropBorderOpacity.coerceIn(0f, 1f)).toInt().coerceIn(0, 255)
+            s.strokePaint.strokeWidth = glassBackdropBorderWidth.coerceIn(0f, 8f) * density
+            s.strokePaint.color = (rawBorder and 0x00FFFFFF) or (effAlpha shl 24)
+            canvas.drawRoundRect(s.rectF, cornerR, cornerR, s.strokePaint)
+        }
     }
 }

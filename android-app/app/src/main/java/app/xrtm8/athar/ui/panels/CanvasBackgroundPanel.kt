@@ -200,6 +200,9 @@ fun CanvasBackgroundPanel(
                     onDimChange = { viewModel.setBackgroundDim(it) },
                     onBrightnessChange = { viewModel.setBackgroundBrightness(it) }, onContrastChange = { viewModel.setBackgroundContrast(it) },
                     onSaturationChange = { viewModel.setBackgroundSaturation(it) }, onVignetteChange = { viewModel.setBackgroundVignette(it) },
+                    onHighlightsChange = { viewModel.setBackgroundHighlights(it) },
+                    onShadowsChange = { viewModel.setBackgroundShadows(it) },
+                    onTemperatureChange = { viewModel.setBackgroundTemperature(it) },
                     onResetAdjustments = { viewModel.resetPhotoAdjustments() }, onSliderChangeFinished = { viewModel.commitHistoryCheckpoint() }
                 )
                 7 -> ColorMixPanel(

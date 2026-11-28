@@ -72,6 +72,7 @@ fun FilmPresetSwatchStrip(
     val categories = listOf(
         "الكل",
         "المفضلة",
+        FilmCategory.PICS_STYLE.labelAr,
         FilmCategory.CLASSIC_CAMERAS.labelAr,
         FilmCategory.INSTANT_VIDEO.labelAr,
         FilmCategory.MONOCHROME.labelAr,
@@ -82,6 +83,7 @@ fun FilmPresetSwatchStrip(
         when (selectedCategory) {
             "الكل" -> true
             "المفضلة" -> favoriteFilters.contains(preset.id)
+            FilmCategory.PICS_STYLE.labelAr -> preset.category == FilmCategory.PICS_STYLE
             FilmCategory.CLASSIC_CAMERAS.labelAr -> preset.category == FilmCategory.CLASSIC_CAMERAS
             FilmCategory.INSTANT_VIDEO.labelAr -> preset.category == FilmCategory.INSTANT_VIDEO
             FilmCategory.MONOCHROME.labelAr -> preset.category == FilmCategory.MONOCHROME
@@ -221,12 +223,12 @@ fun FilmPresetSwatchStrip(
         if (selectedPreset != FilmPreset.NONE) {
             Spacer(modifier = Modifier.height(8.dp))
             StudioSlider(
-                title = "شدة الفلتر",
-                value = filmPresetIntensity.coerceIn(0f, 1f) * 100f,
-                valueRange = 0f..100f,
+                title = "كثافة الفلتر (تقوية وتخفيف)",
+                value = filmPresetIntensity.coerceIn(0f, 1.5f) * 100f,
+                valueRange = 0f..150f,
                 step = 5f,
-                valueDisplay = "${(filmPresetIntensity.coerceIn(0f, 1f) * 100f).toInt()}%",
-                onValueChange = { onFilmPresetIntensityChange((it / 100f).coerceIn(0f, 1f)) },
+                valueDisplay = "${(filmPresetIntensity.coerceIn(0f, 1.5f) * 100f).toInt()}%",
+                onValueChange = { onFilmPresetIntensityChange((it / 100f).coerceIn(0f, 1.5f)) },
                 onValueChangeFinished = onSliderChangeFinished
             )
         }

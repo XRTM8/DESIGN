@@ -1,12 +1,17 @@
 package app.xrtm8.athar.ui.panels
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import app.xrtm8.athar.model.ArabicFontFamily
 import app.xrtm8.athar.model.CanvasState
 import app.xrtm8.athar.model.CustomFont
@@ -14,7 +19,12 @@ import app.xrtm8.athar.model.KashidaMode
 import app.xrtm8.athar.model.TextAlignOption
 import app.xrtm8.athar.typography.AtharFontManager
 import app.xrtm8.athar.ui.panels.typography.*
+import app.xrtm8.athar.ui.theme.DarkTextMuted
 import app.xrtm8.athar.ui.theme.GlassBorder
+import app.xrtm8.athar.ui.theme.GlassSurface
+import app.xrtm8.athar.ui.theme.LocalAmoledWhite
+import app.xrtm8.athar.ui.theme.MutedWhite
+import app.xrtm8.athar.ui.theme.WhiteSurface
 
 /**
  * Clean Typography & Calligraphy Panel Coordinator.
@@ -59,6 +69,27 @@ fun TypographyPanel(
     onSliderChangeFinished: (() -> Unit)? = null
 ) {
     val context = LocalContext.current
+    if (state.activeLayer.shapeConfig.isShape) {
+        val isAmoledWhite = LocalAmoledWhite.current
+        Box(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(vertical = 12.dp)
+                .background(
+                    if (isAmoledWhite) WhiteSurface else GlassSurface,
+                    RoundedCornerShape(14.dp)
+                )
+                .padding(16.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "الطبقة المحددة هي شكل هندسي. استخدم تبويب «الموضع» أو «الطبقات» لتعديلها، أو أضف طبقة نصية.",
+                color = if (isAmoledWhite) DarkTextMuted else MutedWhite,
+                fontSize = 12.sp
+            )
+        }
+        return
+    }
     val supportedFeatures = remember(state.selectedFont, state.customFontPath) {
         AtharFontManager.getSupportedOpenTypeFeatures(context, state.selectedFont, state.customFontPath)
     }

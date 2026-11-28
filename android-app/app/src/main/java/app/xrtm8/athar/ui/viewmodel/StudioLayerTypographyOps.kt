@@ -101,6 +101,8 @@ internal object StudioLayerTypographyOps {
         glassBackdropOpacity = style.glassBackdropOpacity,
         glassBackdropColorLong = style.glassBackdropColorLong,
         glassBackdropBorderColorLong = style.glassBackdropBorderColorLong,
+        glassBackdropBorderWidth = style.glassBackdropBorderWidth,
+        glassBackdropBorderOpacity = style.glassBackdropBorderOpacity,
         glassBackdropCornerRadius = style.glassBackdropCornerRadius,
         glassBackdropPadding = style.glassBackdropPadding,
         blendMode = style.blendMode,

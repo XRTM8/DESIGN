@@ -200,6 +200,197 @@ enum class ArabicFontFamily(
         isVariable = true,
         supportedWeights = listOf(300, 400, 500, 600, 700),
         supportedOpenTypeFeatures = setOf("dlig")
+    ),
+
+    // خط ثمانية الشهير
+    THMANYAH_SANS(
+        fontName = "خط ثمانية",
+        category = "شركات ومجلات",
+        assetPath = "fonts/thmanyah_sans_regular.otf",
+        specimen = "أَثَــرٌ ثَمَانِيَة",
+        cssFamilyName = "Thmanyah Sans",
+        supportedWeights = listOf(400, 500, 700),
+        staticWeightAssets = mapOf(
+            400 to "fonts/thmanyah_sans_regular.otf",
+            500 to "fonts/thmanyah_sans_medium.otf",
+            700 to "fonts/thmanyah_sans_bold.otf"
+        )
+    ),
+    THMANYAH_SERIF(
+        fontName = "ثمانية سيريف",
+        category = "شركات ومجلات",
+        assetPath = "fonts/thmanyah_serif_regular.otf",
+        specimen = "أَثَــرٌ تَحْرِيرِي",
+        cssFamilyName = "Thmanyah Serif Display",
+        supportedWeights = listOf(400, 700),
+        staticWeightAssets = mapOf(
+            400 to "fonts/thmanyah_serif_regular.otf",
+            700 to "fonts/thmanyah_serif_bold.otf"
+        )
+    ),
+
+    // أكثر 14 خط عربي استخداماً عند الشركات والمجلات والصفحات المشهورة
+    IBM_PLEX_SANS_ARABIC(
+        fontName = "آي بي إم بلكس",
+        category = "شركات ومجلات",
+        assetPath = "fonts/ibm_plex_sans_arabic.ttf",
+        specimen = "أَثَــرٌ تِقْنِي",
+        cssFamilyName = "IBM Plex Sans Arabic",
+        supportedWeights = listOf(400, 700),
+        staticWeightAssets = mapOf(
+            400 to "fonts/ibm_plex_sans_arabic.ttf",
+            700 to "fonts/ibm_plex_sans_arabic_bold.ttf"
+        )
+    ),
+    NOTO_SANS_ARABIC(
+        fontName = "نوتو سانس",
+        category = "شركات ومجلات",
+        assetPath = "fonts/noto_sans_arabic.ttf",
+        specimen = "أَثَــرٌ وَاضِح",
+        cssFamilyName = "Noto Sans Arabic",
+        isVariable = true,
+        supportedWeights = listOf(300, 400, 500, 600, 700, 800)
+    ),
+    NOTO_KUFI_ARABIC(
+        fontName = "نوتو كوفي",
+        category = "شركات ومجلات",
+        assetPath = "fonts/noto_kufi_arabic.ttf",
+        specimen = "أَثَــرٌ إِعْلَامِي",
+        cssFamilyName = "Noto Kufi Arabic",
+        isVariable = true,
+        supportedWeights = listOf(300, 400, 500, 600, 700, 800)
+    ),
+    NOTO_NASKH_ARABIC(
+        fontName = "نوتو نسخ",
+        category = "شركات ومجلات",
+        assetPath = "fonts/noto_naskh_arabic.ttf",
+        specimen = "أَثَــرٌ صَحَفِي",
+        cssFamilyName = "Noto Naskh Arabic",
+        isVariable = true,
+        supportedWeights = listOf(400, 500, 600, 700)
+    ),
+    RUBIK(
+        fontName = "روبيك",
+        category = "شركات ومجلات",
+        assetPath = "fonts/rubik.ttf",
+        specimen = "أَثَــرٌ حَدِيث",
+        cssFamilyName = "Rubik",
+        isVariable = true,
+        supportedWeights = listOf(300, 400, 500, 600, 700, 800, 900)
+    ),
+    CHANGA(
+        fontName = "شانغا",
+        category = "شركات ومجلات",
+        assetPath = "fonts/changa.ttf",
+        specimen = "أَثَــرٌ رِيَاضِي",
+        cssFamilyName = "Changa",
+        isVariable = true,
+        supportedWeights = listOf(300, 400, 500, 600, 700, 800)
+    ),
+    MADA(
+        fontName = "مدى",
+        category = "شركات ومجلات",
+        assetPath = "fonts/mada.ttf",
+        specimen = "أَثَــرٌ أَنِيق",
+        cssFamilyName = "Mada",
+        isVariable = true,
+        supportedWeights = listOf(300, 400, 500, 600, 700, 900)
+    ),
+    VAZIRMATN(
+        fontName = "وزير متن",
+        category = "شركات ومجلات",
+        assetPath = "fonts/vazirmatn.ttf",
+        specimen = "أَثَــرٌ نَاشِر",
+        cssFamilyName = "Vazirmatn",
+        isVariable = true,
+        supportedWeights = listOf(300, 400, 500, 600, 700, 800, 900)
+    ),
+    MARKAZI_TEXT(
+        fontName = "مركزي",
+        category = "شركات ومجلات",
+        assetPath = "fonts/markazi_text.ttf",
+        specimen = "أَثَــرٌ مَجَلَّة",
+        cssFamilyName = "Markazi Text",
+        isVariable = true,
+        supportedWeights = listOf(400, 500, 600, 700)
+    ),
+    HARMATTAN(
+        fontName = "هرمتان",
+        category = "شركات ومجلات",
+        assetPath = "fonts/harmattan.ttf",
+        specimen = "أَثَــرٌ مَقْرُوء",
+        cssFamilyName = "Harmattan",
+        supportedWeights = listOf(400, 700),
+        staticWeightAssets = mapOf(
+            400 to "fonts/harmattan.ttf",
+            700 to "fonts/harmattan_bold.ttf"
+        )
+    ),
+    BALOO_BHAIJAAN_2(
+        fontName = "بالو بيجان",
+        category = "شركات ومجلات",
+        assetPath = "fonts/baloo_bhaijaan_2.ttf",
+        specimen = "أَثَــرٌ جَذَّاب",
+        cssFamilyName = "Baloo Bhaijaan 2",
+        isVariable = true,
+        supportedWeights = listOf(400, 500, 600, 700, 800)
+    ),
+    BEIRUTI(
+        fontName = "بيروتي",
+        category = "شركات ومجلات",
+        assetPath = "fonts/beiruti.ttf",
+        specimen = "أَثَــرٌ بَيْرُوتِي",
+        cssFamilyName = "Beiruti",
+        isVariable = true,
+        supportedWeights = listOf(300, 400, 500, 600, 700, 800, 900)
+    ),
+    FUSTAT(
+        fontName = "فسطاط",
+        category = "شركات ومجلات",
+        assetPath = "fonts/fustat.ttf",
+        specimen = "أَثَــرٌ فُسْطَاط",
+        cssFamilyName = "Fustat",
+        isVariable = true,
+        supportedWeights = listOf(300, 400, 500, 600, 700, 800)
+    ),
+    ZAIN(
+        fontName = "زين",
+        category = "شركات ومجلات",
+        assetPath = "fonts/zain.ttf",
+        specimen = "أَثَــرٌ زَيْن",
+        cssFamilyName = "Zain",
+        supportedWeights = listOf(400, 700),
+        staticWeightAssets = mapOf(
+            400 to "fonts/zain.ttf",
+            700 to "fonts/zain_bold.ttf"
+        )
+    ),
+
+    // 3 خطوط أشبه بالخط اليدوي
+    PLAYPEN_SANS_ARABIC(
+        fontName = "قلم يدوي",
+        category = "يدوي",
+        assetPath = "fonts/playpen_sans_arabic.ttf",
+        specimen = "أَثَــرٌ بِخَطِّ الْيَد",
+        cssFamilyName = "Playpen Sans Arabic",
+        isVariable = true,
+        supportedWeights = listOf(300, 400, 500, 600, 700)
+    ),
+    RUWUDU(
+        fontName = "روودو يدوي",
+        category = "يدوي",
+        assetPath = "fonts/ruwudu.ttf",
+        specimen = "أَثَــرٌ مَغْرِبِي",
+        cssFamilyName = "Ruwudu",
+        supportedWeights = listOf(400)
+    ),
+    VIBES(
+        fontName = "فايبز يدوي",
+        category = "يدوي",
+        assetPath = "fonts/vibes.ttf",
+        specimen = "أَثَــرٌ حُرّ",
+        cssFamilyName = "Vibes",
+        supportedWeights = listOf(400)
     );
 
     val defaultWeight: Int

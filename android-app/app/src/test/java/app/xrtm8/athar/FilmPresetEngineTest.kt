@@ -12,7 +12,7 @@ class FilmPresetEngineTest {
 
     @Test
     fun testAllFilmPresetsCompleteness() {
-        assertEquals(18, FilmPreset.entries.size)
+        assertEquals(26, FilmPreset.entries.size)
         val fuji = FilmPreset.entries.filter { it.brand == "Fujifilm" }
         assertEquals(3, fuji.size)
         val kodak = FilmPreset.entries.filter { it.brand == "Kodak" }

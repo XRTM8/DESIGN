@@ -39,13 +39,18 @@ fun GlitchEffectsSection(
     onSliderChangeFinished: (() -> Unit)? = null
 ) {
     val haptic = LocalHapticFeedback.current
+    val isAmoledWhite = LocalAmoledWhite.current
+    val cardBg = if (isAmoledWhite) WhiteSurface else StudioSurface
+    val cardElevated = if (isAmoledWhite) WhiteSurfaceElevated else StudioSurfaceElevated
+    val cardBorder = if (isAmoledWhite) WhiteBorder else GlassBorder
+    val titleText = if (isAmoledWhite) DarkText else PureWhite
 
     Column(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(14.dp))
-            .background(StudioSurface)
-            .border(0.5.dp, GlassBorder, RoundedCornerShape(14.dp))
+            .background(cardBg)
+            .border(0.5.dp, cardBorder, RoundedCornerShape(14.dp))
             .padding(12.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
@@ -57,7 +62,7 @@ fun GlitchEffectsSection(
         ) {
             Text(
                 text = "الخلل التناظري والرقمي (Glitch & CRT)",
-                color = PureWhite,
+                color = titleText,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -131,8 +136,8 @@ fun GlitchEffectsSection(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(9.dp))
-                .background(StudioSurfaceElevated)
-                .border(0.5.dp, GlassBorder, RoundedCornerShape(9.dp))
+                .background(cardElevated)
+                .border(0.5.dp, cardBorder, RoundedCornerShape(9.dp))
                 .clickable {
                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                     onRandomizeSeed()
@@ -151,7 +156,7 @@ fun GlitchEffectsSection(
             Spacer(modifier = Modifier.width(6.dp))
             Text(
                 text = "توليد نمط تمزق جديد (Randomize Pattern)",
-                color = PureWhite,
+                color = titleText,
                 fontSize = 11.sp,
                 fontWeight = FontWeight.Medium
             )

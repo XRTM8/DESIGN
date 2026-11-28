@@ -56,8 +56,18 @@ object AtharSvgExporter {
                 sb.appendLine("""      <feDropShadow dx="${layer.shadowDx * density}" dy="${layer.shadowDy * density}" stdDeviation="${(layer.shadowRadius * density) / 2f}" flood-color="$shadowColor" flood-opacity="$shadowAlpha" />""")
                 sb.appendLine("""    </filter>""")
             }
+            val cg = layer.customGradient
             val activeGrad = resolveActiveGradient(layer)
-            if (activeGrad != LuxuryGradientPreset.NONE && !layer.isHollowText) {
+            if (cg.isEnabled && cg.stops.size >= 2 && !layer.isHollowText) {
+                appendGradientStopsDef(
+                    sb = sb,
+                    safeId = safeId,
+                    colors = cg.stops.map { it.colorLong },
+                    stops = cg.stops.map { it.position },
+                    angleDeg = cg.angle,
+                    isRadial = cg.isRadial
+                )
+            } else if (activeGrad != LuxuryGradientPreset.NONE && !layer.isHollowText) {
                 appendGradientDef(sb, safeId, activeGrad, layer.gradientAngle, layer.isRadialGradient)
             }
         }
@@ -117,10 +127,11 @@ object AtharSvgExporter {
             val cy = (height * 0.5f) + (layer.normOffsetY * height)
             val fontSize = layer.fontSize * density
             val effectiveWeight = if (layer.isBold && layer.fontWeight < 700) 700 else layer.fontWeight
+            val cg = layer.customGradient
             val activeGrad = resolveActiveGradient(layer)
             val fillValue = when {
                 layer.isHollowText -> "none"
-                activeGrad != LuxuryGradientPreset.NONE -> "url(#grad_$safeId)"
+                (cg.isEnabled && cg.stops.size >= 2) || activeGrad != LuxuryGradientPreset.NONE -> "url(#grad_$safeId)"
                 layer.customTextColorLong != null -> colorToHex(layer.customTextColorLong)
                 else -> "#FFFFFF"
             }
@@ -319,10 +330,31 @@ object AtharSvgExporter {
         isRadial: Boolean
     ) {
         if (preset.colors.isEmpty()) return
+        appendGradientStopsDef(
+            sb = sb,
+            safeId = safeId,
+            colors = preset.colors,
+            stops = preset.colors.indices.map { idx ->
+                preset.stops.getOrElse(idx) { idx.toFloat() / (preset.colors.size - 1).coerceAtLeast(1) }
+            },
+            angleDeg = angleDeg,
+            isRadial = isRadial
+        )
+    }
+
+    private fun appendGradientStopsDef(
+        sb: StringBuilder,
+        safeId: String,
+        colors: List<Long>,
+        stops: List<Float>,
+        angleDeg: Float,
+        isRadial: Boolean
+    ) {
+        if (colors.isEmpty()) return
         if (isRadial) {
             sb.appendLine("""    <radialGradient id="grad_$safeId" cx="50%" cy="50%" r="55%">""")
-            preset.colors.forEachIndexed { idx, col ->
-                val offset = ((preset.stops.getOrElse(idx) { idx.toFloat() / (preset.colors.size - 1).coerceAtLeast(1) }) * 100f).toInt()
+            colors.forEachIndexed { idx, col ->
+                val offset = ((stops.getOrElse(idx) { idx.toFloat() / (colors.size - 1).coerceAtLeast(1) }) * 100f).toInt()
                 val alpha = ((col ushr 24) and 0xFF) / 255f
                 sb.appendLine("""      <stop offset="$offset%" stop-color="${colorToHex(col)}" stop-opacity="$alpha" />""")
             }
@@ -336,8 +368,8 @@ object AtharSvgExporter {
             val x2 = ((0.5 + dx) * 100.0).toInt()
             val y2 = ((0.5 + dy) * 100.0).toInt()
             sb.appendLine("""    <linearGradient id="grad_$safeId" x1="$x1%" y1="$y1%" x2="$x2%" y2="$y2%">""")
-            preset.colors.forEachIndexed { idx, col ->
-                val offset = ((preset.stops.getOrElse(idx) { idx.toFloat() / (preset.colors.size - 1).coerceAtLeast(1) }) * 100f).toInt()
+            colors.forEachIndexed { idx, col ->
+                val offset = ((stops.getOrElse(idx) { idx.toFloat() / (colors.size - 1).coerceAtLeast(1) }) * 100f).toInt()
                 val alpha = ((col ushr 24) and 0xFF) / 255f
                 sb.appendLine("""      <stop offset="$offset%" stop-color="${colorToHex(col)}" stop-opacity="$alpha" />""")
             }

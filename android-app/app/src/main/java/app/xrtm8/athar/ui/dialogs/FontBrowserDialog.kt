@@ -53,7 +53,7 @@ fun FontBrowserDialog(
     var selectedCategory by remember { mutableStateOf("الكل") }
     var favoriteFonts by remember { mutableStateOf(AtharFavoritesManager.getFavoriteFonts(context)) }
     val categories = remember {
-        listOf("الكل", "خطوط مخصصة", "المفضلة", "كلاسيكي", "رقعة", "كوفي", "نستعليق", "عناوين", "حديث", "تعبيري", "قرآني")
+        listOf("الكل", "خطوط مخصصة", "المفضلة", "شركات ومجلات", "يدوي", "كلاسيكي", "رقعة", "كوفي", "نستعليق", "عناوين", "حديث", "تعبيري", "قرآني")
     }
 
     val groupedCustom = remember(customFonts, searchQuery) {

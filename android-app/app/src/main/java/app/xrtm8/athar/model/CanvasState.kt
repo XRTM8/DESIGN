@@ -16,6 +16,9 @@ data class CanvasState(
     val backgroundContrast: Float = 1.0f,
     val backgroundSaturation: Float = 1.0f,
     val backgroundVignette: Float = 0f,
+    val backgroundHighlights: Float = 0f,
+    val backgroundShadows: Float = 0f,
+    val backgroundTemperature: Float = 0f,
     val backgroundGrayscale: Boolean = false,
     val isTransparentBg: Boolean = false,
     val gradientScrim: CanvasGradientScrim = CanvasGradientScrim(),
@@ -84,6 +87,8 @@ data class CanvasState(
     val glassBackdropOpacity: Float get() = activeLayer.glassBackdropOpacity
     val glassBackdropColorLong: Long get() = activeLayer.glassBackdropColorLong
     val glassBackdropBorderColorLong: Long get() = activeLayer.glassBackdropBorderColorLong
+    val glassBackdropBorderWidth: Float get() = activeLayer.glassBackdropBorderWidth
+    val glassBackdropBorderOpacity: Float get() = activeLayer.glassBackdropBorderOpacity
     val glassBackdropCornerRadius: Float get() = activeLayer.glassBackdropCornerRadius
     val glassBackdropPadding: Float get() = activeLayer.glassBackdropPadding
     val blendMode: LayerBlendMode get() = activeLayer.blendMode

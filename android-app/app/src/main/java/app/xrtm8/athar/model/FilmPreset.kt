@@ -6,7 +6,8 @@ enum class FilmCategory(val labelAr: String) {
     CLASSIC_CAMERAS("كاميرات كلاسيكية"),
     INSTANT_VIDEO("فورية وفيديو"),
     MONOCHROME("أحادي"),
-    CINEMA("سينمائي")
+    CINEMA("سينمائي"),
+    PICS_STYLE("فلاتر عصرية")
 }
 
 enum class FilmPreset(
@@ -145,5 +146,61 @@ enum class FilmPreset(
         brand = "Rangefinder",
         description = "محاكاة كلاسيكية بدرجات بشرة طبيعية وخضرة متزنة",
         category = FilmCategory.CLASSIC_CAMERAS
+    ),
+    NTRL1(
+        id = "ntrl1",
+        titleAr = "NTRL1",
+        brand = "Natural",
+        description = "إضاءة طبيعية ناعمة وتوازن ألوان نقي",
+        category = FilmCategory.PICS_STYLE
+    ),
+    NTRL2(
+        id = "ntrl2",
+        titleAr = "NTRL2",
+        brand = "Natural",
+        description = "وضوح نهاري متوازن مع تباين لطيف",
+        category = FilmCategory.PICS_STYLE
+    ),
+    NTRL3(
+        id = "ntrl3",
+        titleAr = "NTRL3",
+        brand = "Natural",
+        description = "ألوان طبيعية هادئة بلمسة مطفأة ناعمة",
+        category = FilmCategory.PICS_STYLE
+    ),
+    BRNZ1(
+        id = "brnz1",
+        titleAr = "BRNZ1",
+        brand = "Bronze",
+        description = "إشراقة برونزية دافئة بلمسات ذهبية",
+        category = FilmCategory.PICS_STYLE
+    ),
+    BRNZ2(
+        id = "brnz2",
+        titleAr = "BRNZ2",
+        brand = "Bronze",
+        description = "برونز عميق بتباين غني وظلال دافئة",
+        category = FilmCategory.PICS_STYLE
+    ),
+    BRNZ4(
+        id = "brnz4",
+        titleAr = "BRNZ4",
+        brand = "Bronze",
+        description = "نحاسي سينمائي بدرجات خضراء مخففة",
+        category = FilmCategory.PICS_STYLE
+    ),
+    TL1(
+        id = "tl1",
+        titleAr = "TL1",
+        brand = "Teal",
+        description = "ظلال تيل باردة وإضاءات نقية متوازنة",
+        category = FilmCategory.PICS_STYLE
+    ),
+    MIL1(
+        id = "mil1",
+        titleAr = "MIL1",
+        brand = "Milk",
+        description = "طابع حليبي ناعم بظلال مرفوعة وباستيل هادئ",
+        category = FilmCategory.PICS_STYLE
     )
 }

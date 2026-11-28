@@ -81,6 +81,8 @@ internal object AtharLayerJsonCodec {
             put("glass_backdrop_opacity", layer.glassBackdropOpacity.toDouble())
             put("glass_backdrop_color", layer.glassBackdropColorLong)
             put("glass_backdrop_border_color", layer.glassBackdropBorderColorLong)
+            put("glass_backdrop_border_width", layer.glassBackdropBorderWidth.toDouble())
+            put("glass_backdrop_border_opacity", layer.glassBackdropBorderOpacity.toDouble())
             put("glass_backdrop_corner_radius", layer.glassBackdropCornerRadius.toDouble())
             put("glass_backdrop_padding", layer.glassBackdropPadding.toDouble())
             put("box_width_ratio", layer.boxWidthRatio.toDouble())
@@ -201,6 +203,8 @@ internal object AtharLayerJsonCodec {
             glassBackdropOpacity = obj.optDouble("glass_backdrop_opacity", 0.65).toFloat(),
             glassBackdropColorLong = obj.optLong("glass_backdrop_color", 0xFF0D0F14),
             glassBackdropBorderColorLong = obj.optLong("glass_backdrop_border_color", 0x55E5C07B),
+            glassBackdropBorderWidth = obj.optDouble("glass_backdrop_border_width", 1.2).toFloat().coerceIn(0f, 8f),
+            glassBackdropBorderOpacity = obj.optDouble("glass_backdrop_border_opacity", 1.0).toFloat().coerceIn(0f, 1f),
             glassBackdropCornerRadius = obj.optDouble("glass_backdrop_corner_radius", 22.0).toFloat(),
             glassBackdropPadding = obj.optDouble("glass_backdrop_padding", 22.0).toFloat(),
             blendMode = if (isLegacyRoot) LayerBlendMode.NORMAL else enumOrDefault(obj.optString("blend_mode", LayerBlendMode.NORMAL.name), LayerBlendMode.NORMAL),

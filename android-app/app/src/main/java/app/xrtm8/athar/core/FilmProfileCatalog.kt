@@ -188,5 +188,97 @@ internal object FilmProfileCatalog {
             shadowTintR = -0.020f, shadowTintG = 0.022f, shadowTintB = 0.020f,
             highlightTintR = 0.040f, highlightTintG = 0.020f, highlightTintB = -0.030f
         )
+
+        // PicsArt-style Natural, Bronze, Teal & Milk Filters
+        FilmPreset.NTRL1 -> FilmPresetEngine.FilmProfile(
+            blackLift = 0.025f,
+            contrastS = 0.12f,
+            highlightRolloff = 0.20f,
+            exposureGain = 1.03f,
+            saturation = 0.94f,
+            shadowTintR = 0.010f, shadowTintG = 0.012f, shadowTintB = 0.008f,
+            highlightTintR = 0.024f, highlightTintG = 0.016f, highlightTintB = -0.012f
+        )
+
+        FilmPreset.NTRL2 -> FilmPresetEngine.FilmProfile(
+            blackLift = 0.014f,
+            contrastS = 0.24f,
+            highlightRolloff = 0.18f,
+            exposureGain = 1.04f,
+            saturation = 1.05f,
+            rFromR = 1.01f, gFromG = 1.01f, bFromB = 0.99f,
+            shadowTintR = -0.006f, shadowTintG = 0.008f, shadowTintB = 0.014f,
+            highlightTintR = 0.020f, highlightTintG = 0.014f, highlightTintB = -0.010f
+        )
+
+        FilmPreset.NTRL3 -> FilmPresetEngine.FilmProfile(
+            blackLift = 0.048f,
+            contrastS = -0.04f,
+            highlightRolloff = 0.28f,
+            exposureGain = 1.02f,
+            saturation = 0.84f,
+            shadowTintR = 0.016f, shadowTintG = 0.014f, shadowTintB = 0.020f,
+            highlightTintR = 0.022f, highlightTintG = 0.018f, highlightTintB = 0.004f
+        )
+
+        FilmPreset.BRNZ1 -> FilmPresetEngine.FilmProfile(
+            blackLift = 0.028f,
+            contrastS = 0.22f,
+            highlightRolloff = 0.24f,
+            exposureGain = 1.03f,
+            saturation = 1.06f,
+            rFromR = 1.04f, rFromG = 0.03f,
+            gFromG = 1.00f,
+            bFromB = 0.90f,
+            shadowTintR = 0.036f, shadowTintG = 0.016f, shadowTintB = -0.028f,
+            highlightTintR = 0.072f, highlightTintG = 0.038f, highlightTintB = -0.058f
+        )
+
+        FilmPreset.BRNZ2 -> FilmPresetEngine.FilmProfile(
+            blackCrush = 0.028f,
+            blackLift = 0.016f,
+            contrastS = 0.38f,
+            highlightRolloff = 0.22f,
+            saturation = 1.12f,
+            rFromR = 1.05f, rFromG = 0.04f,
+            gFromG = 0.99f,
+            bFromB = 0.88f,
+            shadowTintR = 0.042f, shadowTintG = 0.012f, shadowTintB = -0.038f,
+            highlightTintR = 0.088f, highlightTintG = 0.042f, highlightTintB = -0.072f
+        )
+
+        FilmPreset.BRNZ4 -> FilmPresetEngine.FilmProfile(
+            blackLift = 0.034f,
+            contrastS = 0.30f,
+            highlightRolloff = 0.30f,
+            saturation = 0.88f,
+            rFromR = 1.04f, rFromG = 0.02f, rFromB = -0.02f,
+            gFromG = 0.97f,
+            bFromB = 0.91f,
+            shadowTintR = 0.024f, shadowTintG = 0.006f, shadowTintB = -0.018f,
+            highlightTintR = 0.075f, highlightTintG = 0.032f, highlightTintB = -0.052f
+        )
+
+        FilmPreset.TL1 -> FilmPresetEngine.FilmProfile(
+            blackLift = 0.024f,
+            contrastS = 0.28f,
+            highlightRolloff = 0.22f,
+            saturation = 1.02f,
+            rFromR = 0.98f,
+            gFromG = 1.02f,
+            bFromB = 1.05f,
+            shadowTintR = -0.072f, shadowTintG = 0.042f, shadowTintB = 0.085f,
+            highlightTintR = 0.038f, highlightTintG = 0.020f, highlightTintB = -0.022f
+        )
+
+        FilmPreset.MIL1 -> FilmPresetEngine.FilmProfile(
+            blackLift = 0.072f,
+            contrastS = -0.14f,
+            highlightRolloff = 0.34f,
+            exposureGain = 1.05f,
+            saturation = 0.82f,
+            shadowTintR = 0.022f, shadowTintG = 0.022f, shadowTintB = 0.028f,
+            highlightTintR = 0.036f, highlightTintG = 0.030f, highlightTintB = 0.016f
+        )
     }
 }
